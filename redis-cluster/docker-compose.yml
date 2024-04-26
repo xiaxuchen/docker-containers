@@ -1,0 +1,41 @@
+version: "2.1"
+name: 'redis-cluster'
+services:
+  redis-master:
+    container_name: redis-master
+    image: redis-master
+    volumes:
+      - redis-master-conf:/etc/redis
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - private
+    command: --requirepass ${REDIS_PASSWORD}
+  redis-slave:
+    container_name: redis-slave
+    image: redis-slave
+    volumes:
+      - redis-slave-conf:/etc/redis
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 6378:6379
+    networks:
+      - private
+    depends_on:
+      - redis-master
+    command: --requirepass ${REDIS_PASSWORD} --slaveof redis-master 6379 --masterauth ${REDIS_PASSWORD}
+# 将配置文件挂载到docker的容器卷中管理
+volumes:
+  redis-master-conf:
+  redis-slave-conf:
+# 创建网络让容器之间可以互相访问
+networks:
+  private:
+  public:
