@@ -15,7 +15,7 @@ services:
       - 6379:6379
     networks:
       - private
-    entrypoint: redis-server /etc/redis/redis.conf --protected-mode yes
+    entrypoint: redis-server /etc/redis/redis.conf --requirepass ${REDIS_PASSWORD}
   redis-slave:
     container_name: redis-slave
     image: redis-slave
