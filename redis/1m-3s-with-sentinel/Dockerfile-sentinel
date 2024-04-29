@@ -1,0 +1,5 @@
+FROM redis:5.0.14
+LABEL author="xxcisbest"
+COPY ./sentinel.conf /etc/redis/s1.conf
+# COPY ./sentinel.conf /etc/redis/sentinel.conf
+ENTRYPOINT ["redis-server", "/etc/redis/s1.conf", "--sentinel"]

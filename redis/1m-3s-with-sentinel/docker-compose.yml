@@ -15,7 +15,7 @@ services:
       - 6379:6379
     networks:
       - private
-    entrypoint: redis-server /etc/redis/redis.conf --protected-mode yes
+    entrypoint: redis-server /etc/redis/redis.conf --requirepass ${REDIS_PASSWORD}
   redis-slave:
     container_name: redis-slave
     image: redis-slave
@@ -67,6 +67,51 @@ services:
     depends_on:
       - redis-master
     command: --requirepass ${REDIS_PASSWORD} --replicaof redis-master 6379 --masterauth ${REDIS_PASSWORD}
+  redis-sentinel1:
+    container_name: redis-sentinel1
+    image: redis-sentinel
+    volumes:
+      - redis-sentinel1-conf:/etc/redis
+    build:
+      context: .
+      dockerfile: Dockerfile-sentinel
+    restart: always
+    ports:
+      - 26379:26379
+    networks:
+      - private
+    depends_on:
+      - redis-master
+  redis-sentinel2:
+    container_name: redis-sentinel2
+    image: redis-sentinel
+    volumes:
+      - redis-sentinel2-conf:/etc/redis
+    build:
+      context: .
+      dockerfile: Dockerfile-sentinel
+    restart: always
+    ports:
+      - 26380:26379
+    networks:
+      - private
+    depends_on:
+      - redis-master
+  redis-sentinel3:
+    container_name: redis-sentinel3
+    image: redis-sentinel
+    volumes:
+      - redis-sentinel3-conf:/etc/redis
+    build:
+      context: .
+      dockerfile: Dockerfile-sentinel
+    restart: always
+    ports:
+      - 26381:26379
+    networks:
+      - private
+    depends_on:
+      - redis-master
 # 将配置文件挂载到docker的容器卷中管理
 volumes:
   redis-master-conf:
@@ -77,6 +122,9 @@ volumes:
   redis-slave-data:
   redis-slave1-data:
   redis-slave2-data:
+  redis-sentinel1-conf:
+  redis-sentinel2-conf:
+  redis-sentinel3-conf:
 # 创建网络让容器之间可以互相访问
 networks:
   private:
