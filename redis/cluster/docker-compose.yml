@@ -1,0 +1,90 @@
+version: "3"
+name: 'redis-cluster'
+services:
+  redis-node7000:
+    container_name: redis-node7000
+    image: redis-node
+    volumes:
+      - redis-node7000-conf:/etc/redis
+      - redis-node7000-data:/data
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: "host"
+    command: --requirepass ${REDIS_PASSWORD} --port 7000
+  redis-node7001:
+    container_name: redis-node7001
+    image: redis-node
+    volumes:
+      - redis-node7001-conf:/etc/redis
+      - redis-node7001-data:/data
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: "host"
+    command: --requirepass ${REDIS_PASSWORD} --port 7001
+  redis-node7002:
+    container_name: redis-node7002
+    image: redis-node
+    volumes:
+      - redis-node7002-conf:/etc/redis
+      - redis-node7002-data:/data
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: "host"
+    command: --requirepass ${REDIS_PASSWORD} --port 7002
+  redis-node7003:
+    container_name: redis-node7003
+    image: redis-node
+    volumes:
+      - redis-node7003-conf:/etc/redis
+      - redis-node7003-data:/data
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: "host"
+    command: --requirepass ${REDIS_PASSWORD} --port 7003
+  redis-node7004:
+    container_name: redis-node7004
+    image: redis-node
+    volumes:
+      - redis-node7004-conf:/etc/redis
+      - redis-node7004-data:/data
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: "host"
+    command: --requirepass ${REDIS_PASSWORD} --port 7004
+  redis-node7005:
+    container_name: redis-node7005
+    image: redis-node
+    volumes:
+      - redis-node7005-conf:/etc/redis
+      - redis-node7005-data:/data
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: "host"
+    command: --requirepass ${REDIS_PASSWORD} --port 7005
+volumes:
+  redis-node7000-conf:
+  redis-node7000-data:
+  redis-node7001-conf:
+  redis-node7001-data:
+  redis-node7002-conf:
+  redis-node7002-data:
+  redis-node7003-conf:
+  redis-node7003-data:
+  redis-node7004-conf:
+  redis-node7004-data:
+  redis-node7005-conf:
+  redis-node7005-data:
+
+    
