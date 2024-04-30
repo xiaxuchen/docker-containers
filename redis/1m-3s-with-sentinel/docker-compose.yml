@@ -130,4 +130,3 @@ volumes:
 # 创建网络让容器之间可以互相访问
 networks:
   private:
-  public:
