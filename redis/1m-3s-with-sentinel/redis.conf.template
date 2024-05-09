@@ -490,7 +490,8 @@ min-replicas-max-lag 10
 #
 # replica-announce-ip 5.5.5.5
 # replica-announce-port 1234
-replica-announce-ip ${IP_ADDR}
+requirepass ${REDIS_PASSWORD}
+masterauth ${REDIS_PASSWORD}
 ################################## SECURITY ###################################
 
 # Require clients to issue AUTH <PASSWORD> before processing any other

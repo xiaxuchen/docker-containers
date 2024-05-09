@@ -1,7 +1,6 @@
-sentinel monitor mymaster ${IP_ADDR} 6379 2
+sentinel monitor mymaster redis-master 6379 2
 sentinel down-after-milliseconds mymaster 6000
 sentinel failover-timeout mymaster 30000
 sentinel parallel-syncs mymaster 1
 sentinel auth-pass mymaster ${REDIS_PASSWORD}
 requirepass ${SENTINEL_PASSWORD}
-sentinel announce-ip ${IP_ADDR}

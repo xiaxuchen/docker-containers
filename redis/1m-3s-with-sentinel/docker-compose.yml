@@ -11,11 +11,8 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    ports:
-      - 6379:6379
     networks:
       - private
-    entrypoint: redis-server /etc/redis/redis.conf --requirepass ${REDIS_PASSWORD} --replica-announce-port 6379
   redis-slave:
     container_name: redis-slave
     image: redis-slave
@@ -26,13 +23,11 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    ports:
-      - 6378:6379
     networks:
       - private
     depends_on:
       - redis-master
-    command: --requirepass ${REDIS_PASSWORD} --replicaof redis-master 6379 --masterauth ${REDIS_PASSWORD} --replica-announce-port 6378
+    command:  --replicaof redis-master 6379 
   redis-slave1:
     container_name: redis-slave1
     image: redis-slave
@@ -43,13 +38,11 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    ports:
-      - 6377:6379
     networks:
       - private
     depends_on:
       - redis-master
-    command: --requirepass ${REDIS_PASSWORD} --replicaof redis-master 6379 --masterauth ${REDIS_PASSWORD} --replica-announce-port 6377
+    command: --replicaof redis-master 6379
   redis-slave2:
     container_name: redis-slave2
     image: redis-slave
@@ -60,13 +53,11 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    ports:
-      - 6376:6379
     networks:
       - private
     depends_on:
       - redis-master
-    command: --requirepass ${REDIS_PASSWORD} --replicaof redis-master 6379 --masterauth ${REDIS_PASSWORD} --replica-announce-port 6376
+    command: --replicaof redis-master 6379
   redis-sentinel1:
     container_name: redis-sentinel1
     image: redis-sentinel
@@ -82,6 +73,7 @@ services:
       - private
     depends_on:
       - redis-master
+    command: --sentinel
   redis-sentinel2:
     container_name: redis-sentinel2
     image: redis-sentinel
@@ -97,7 +89,7 @@ services:
       - private
     depends_on:
       - redis-master
-    command: --sentinel announce-port 26380
+    command: --sentinel
   redis-sentinel3:
     container_name: redis-sentinel3
     image: redis-sentinel
@@ -113,7 +105,7 @@ services:
       - private
     depends_on:
       - redis-master
-    command: --sentinel announce-port 26381
+    command: --sentinel
 # 将配置文件挂载到docker的容器卷中管理
 volumes:
   redis-master-conf:

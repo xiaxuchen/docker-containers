@@ -36,10 +36,5 @@ min-replicas-max-lag 10
     sh start.sh -c
     ```
     其中-c将清空相关镜像重新构建
-# 关于docker虚拟网卡与服务发现的思考
-对于redis、kafka、rocketmq等中间件，进行服务注册时节点会自动从网卡获取ip，这会使得获取到虚拟网卡的内网ip，因此无法正常通信。
-**解决办法:**
-- 修改容器的端口配置，容器直接使用宿主机的网络，`--network host`
-- 手动修改容器内服务的配置文件，让服务返回固定的宿主机的ip地址
 # 官方文档
 [点此跳转](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/)

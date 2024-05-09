@@ -11,14 +11,6 @@ while getopts "c" opt; do
 done
 docker-compose down
 if $c_passed; then
-    echo "Cleaning up..."
-    # 当前机器的IP地址
-    if command -v ifconfig >/dev/null 2>&1; then
-        export IP_ADDR=$(ifconfig | grep 'inet ' | grep -v '127.0.0.1' | awk '{ print $2 }')
-    else
-        export IP_ADDR=$(ip addr show | grep 'inet ' | grep -v '127.0.0.1' | awk '{ print $2 }' | cut -d/ -f1)
-    fi
-    echo "host ip: $IP_ADDR"
     set -a
     eval $(egrep -v '^#' .env | xargs)
     set +a
@@ -34,3 +26,4 @@ if $c_passed; then
     rm -rf sentinel.conf
     rm -rf redis.conf
 fi
+
